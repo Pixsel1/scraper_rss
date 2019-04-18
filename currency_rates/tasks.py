@@ -1,5 +1,7 @@
 import moneyed
 
+from celery import shared_task
+
 from currency_rates.models import CurrencyRate
 from currency_rates.utils import (
     CurrencyRate as RawCurrencyRate,
@@ -39,6 +41,7 @@ def extract_currency_rates(currency_rate: ECBCurrencyRate) -> None:
         save_currency_rate(c_rate)
 
 
+@shared_task
 def get_currency_rates():
     main_source_url = 'https://www.ecb.europa.eu/rss/fxref-{}.html'
     for currency in ECB_CURRENCIES:

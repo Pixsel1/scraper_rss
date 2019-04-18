@@ -15,3 +15,15 @@ services:
       - "8000:8000"
     depends_on:
       - db
+  celery:
+    image: django_app:latest
+    command: celery -A scraper_rss worker -l info -B
+    depends_on:
+      - db
+      - broker
+    volumes:
+      - .:/code
+  broker:
+    image: rabbitmq:3.7.14
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=celery

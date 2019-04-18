@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'djmoney',
+    'django_filters',
+    'rest_framework',
 
     # Local apps
     'currency_rates',
@@ -134,4 +137,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+}
+
+CELERY_BROKER_URL = 'amqp://guest:guest@broker:5672/celery'
+BROKER_URL = 'amqp://guest:guest@broker:5672/celery'
+
+CELERY_BEAT_SCHEDULE = {
+    'get_currency_rates': {
+        'task': 'currency_rates.tasks.get_currency_rates',
+        'schedule': timedelta(minutes=1),
+    },
 }
