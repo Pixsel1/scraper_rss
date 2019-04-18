@@ -10,6 +10,7 @@ Scraper_rss is a Django based application, which import currency rates from ECB,
 # Architecture
 Simple application that does not require a lot of logic. In this case, we use the traditional architecture solution which Django give us.
 
+We use:
  - Docker
  - PostgreSQL
  - Celery
